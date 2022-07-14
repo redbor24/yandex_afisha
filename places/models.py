@@ -14,17 +14,19 @@ class Place(models.Model):
     class Meta:
         verbose_name = 'Локация'
         verbose_name_plural = 'Локации'
+        unique_together = ['title', 'lat', 'lng']
 
 
 class Image(models.Model):
-    num = models.IntegerField(verbose_name='Порядковый номер изображения локации', null=False)
+    num = models.IntegerField(verbose_name='Порядковый номер изображения локации', null=False, default=1)
     image = models.ImageField(upload_to='', verbose_name='Изображение локации', null=True)
-    place = models.ForeignKey(Place, verbose_name='Локация', on_delete=models.CASCADE, related_name='images',
-                              db_index=True)
+    places = models.ForeignKey(Place, verbose_name='Локация', on_delete=models.CASCADE, related_name='images',
+                               db_index=True)
 
     def __str__(self):
-        return f'{self.num} {self.place.title}'
+        return f'{self.num} {self.places.title}'
 
     class Meta:
         verbose_name = 'Изображение локации'
         verbose_name_plural = 'Изображения локации'
+        ordering = ['num']
