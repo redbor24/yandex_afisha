@@ -1,9 +1,11 @@
-from django.utils.html import format_html, mark_safe
+from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 from django.contrib import admin
-from places.models import Place, Image
+from django.utils.html import format_html, mark_safe
+
+from places.models import Image, Place
 
 
-class ImagesInline(admin.TabularInline):
+class ImagesInline(SortableInlineAdminMixin, admin.TabularInline):
     model = Image
     fields = ('image', 'preview_image', 'num', )
     verbose_name = 'Изображение'
@@ -15,20 +17,13 @@ class ImagesInline(admin.TabularInline):
     def preview_image(self, obj):
         return format_html(
             '{}',
-            mark_safe(
-                '<img src="{url}" height={height} />'.format(
-                    url=obj.image.url,
-                    height=200,
-                )
-            )
+            mark_safe('<img src="{url}" height={height} />'.format(url=obj.image.url, height=200))
         )
 
 
 @admin.register(Place)
-class PlaceAdmin(admin.ModelAdmin):
+class PlaceAdmin(SortableAdminMixin, admin.ModelAdmin):
+    list_display = ('title', )
+    list_display_links = ('title', )
+    search_fields = ('title', )
     inlines = [ImagesInline]
-
-
-@admin.register(Image)
-class ImageAdmin(admin.ModelAdmin):
-    pass

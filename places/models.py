@@ -15,11 +15,12 @@ class Place(models.Model):
         verbose_name = 'Локация'
         verbose_name_plural = 'Локации'
         unique_together = ['title', 'lat', 'lng']
+        ordering = ['id', 'title']
 
 
 class Image(models.Model):
     num = models.IntegerField(verbose_name='Порядковый номер изображения локации', null=False, default=1)
-    image = models.ImageField(upload_to='', verbose_name='Изображение локации', null=True)
+    image = models.ImageField(verbose_name='Изображение локации')
     places = models.ForeignKey(Place, verbose_name='Локация', on_delete=models.CASCADE, related_name='images',
                                db_index=True)
 
