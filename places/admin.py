@@ -27,3 +27,4 @@ class PlaceAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display_links = ('title', )
     search_fields = ('title', )
     inlines = [ImagesInline]
+    save_on_top = True
