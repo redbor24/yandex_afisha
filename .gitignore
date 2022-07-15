@@ -1,10 +1,12 @@
 /_frontend
 /media
-/__pycache__
+# /__pycache__
 /.idea
 /venv
 scratch*.py
 inspectdb.*
+/static*
+_notes.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
