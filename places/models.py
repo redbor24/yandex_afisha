@@ -3,11 +3,11 @@ from tinymce.models import HTMLField
 
 
 class Place(models.Model):
-    title = models.CharField(max_length=255, verbose_name='Название локации', db_index=True, blank=False)
+    title = models.CharField(max_length=255, verbose_name='Название локации', db_index=True)
     description_short = models.TextField(verbose_name='Краткое описание', blank=True)
     description_long = HTMLField(verbose_name='Полное описание', blank=True)
-    lat = models.FloatField(verbose_name='Широта', null=False)
-    lng = models.FloatField(verbose_name='Долгота', null=False)
+    lat = models.FloatField(verbose_name='Широта')
+    lng = models.FloatField(verbose_name='Долгота')
 
     def __str__(self):
         return self.title
@@ -20,7 +20,7 @@ class Place(models.Model):
 
 
 class Image(models.Model):
-    num = models.IntegerField(verbose_name='Порядковый номер изображения локации', null=False, default=1)
+    num = models.IntegerField(verbose_name='Порядковый номер изображения локации', default=1)
     image = models.ImageField(verbose_name='Изображение локации')
     places = models.ForeignKey(Place, verbose_name='Локация', on_delete=models.CASCADE, related_name='images',
                                db_index=True)
