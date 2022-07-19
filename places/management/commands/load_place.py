@@ -20,9 +20,15 @@ def create_place(place_url):
         return
 
     coordinates = place_descr.get('coordinates')
+    if not coordinates:
+        raise ValueError('Отсутствуют координаты локации.')
+
+    title = place_descr.get('title')
+    if not title:
+        raise ValueError('Отсутствует название локации.')
 
     place, is_new_place = Place.objects.get_or_create(
-        title=place_descr.get('title'),
+        title=title,
         defaults={
             'description_short': place_descr.get('description_short'),
             'description_long': place_descr.get('description_long'),
