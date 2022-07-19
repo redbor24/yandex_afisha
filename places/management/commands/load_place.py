@@ -43,7 +43,7 @@ def create_place(place_url):
 
 
 def download_place_images(place, image_urls):
-    for image_url in image_urls:
+    for count, image_url in enumerate(image_urls, start=1):
         response = requests.get(image_url)
         response.raise_for_status()
 
@@ -52,8 +52,8 @@ def download_place_images(place, image_urls):
         image_content = ContentFile(response.content)
 
         place_image = Image(places=place)
-        place_image.num = place.images.count() + 1
         place_image.image.save(image_filename, image_content, save=True)
+        place_image.num = count
         place_image.save()
 
 
